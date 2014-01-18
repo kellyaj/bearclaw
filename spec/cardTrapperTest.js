@@ -11,8 +11,7 @@ describe("cardTrapper", function() {
       tracking: "SOMETRACKINGNUMBER"
     };
     var cardTrapper = new CardTrapper();
-    cardTrapper.rawCards.push(rawCard);
-    cardTrapper.mountCards();
+    cardTrapper.mountCards([rawCard]);
     expect(cardTrapper.cards[0]).toEqual(expectedCard);
   })
 
