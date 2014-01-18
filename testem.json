@@ -3,6 +3,7 @@
   "src_files": [
     "scripts/vendor/jquery-1.10.js",
     "scripts/vendor/underscore.js",
+    "scripts/cardTrapper.js",
     "spec/**/*.js"
   ]
 }
