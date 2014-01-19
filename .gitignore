@@ -11,4 +11,5 @@ pids
 logs
 results
 
+*.py[co]
 node_modules
