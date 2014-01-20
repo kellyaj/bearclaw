@@ -1,4 +1,6 @@
 <!doctype html>
 <ul>
-  <li>{{data}}</li>
+  {% for entry in entries %}
+  <li>{{entry['last_location']}} on {{entry['last_checkin']}}</li>
+  {% endfor %}
 </ul>
