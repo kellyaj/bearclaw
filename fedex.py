@@ -69,7 +69,7 @@ class FedexTracker(object):
             entry = {}
             entry['last_location'] = self.last_location(raw_data)
             entry['last_checkin'] = self.last_checkin(raw_data)
-            entry['out_for_delivery'] = self.get_delivery_status(raw_data)
+            entry['status'] = self.get_status_text(raw_data)
             self.entries.append(entry)
 
     def is_out_for_delivery(self, raw_data):
@@ -80,9 +80,14 @@ class FedexTracker(object):
         status = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["status"]
         return re.match(status, "delivered", re.IGNORECASE) is not None
 
+    def get_status_text(self, raw_data):
+        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["status"]
+
     def get_delivery_status(self, raw_data):
         if self.is_out_for_delivery(raw_data):
             return "OFD"
         elif self.has_been_delivered(raw_data):
             return "Delivered"
+        else:
+            return self.get_status_text(raw_data)
 
