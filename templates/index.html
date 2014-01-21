@@ -1,6 +1,15 @@
 <!doctype html>
-<ul>
+<table>
+  <tr>
+    <td>Location</td>
+    <td>Date and Time</td>
+    <td>Status</td>
+  </tr>
   {% for entry in entries %}
-  <li>{{entry['last_location']}} on {{entry['last_checkin']}}</li>
+    <tr>
+      <td>{{entry['last_location']}}</td>
+      <td>{{entry['last_checkin']}}</td>
+      <td>{{entry['out_for_delivery']}}</td>
+    </tr>
   {% endfor %}
-</ul>
+</table>
