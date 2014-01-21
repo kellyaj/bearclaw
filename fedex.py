@@ -49,7 +49,19 @@ class FedexTracker(object):
         return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["scanLocation"]
 
     def last_checkin(self, raw_data):
-        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["date"]
+        raw_date = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["date"]
+        raw_time = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["time"]
+        date = self.format_date(raw_date)
+        time = self.format_time(raw_time)
+        return "{0} at {1}".format(date,time)
+
+    def format_date(self, raw_date):
+        split_date = raw_date.split("-")
+        return "{0}/{1}/{2}".format(split_date[1], split_date[2], split_date[0])
+
+    def format_time(self, raw_time):
+        split_time = raw_time.split(":")
+        return "{0}:{1}".format(split_time[0], split_time[1])
 
     def generate_entry_dictionary(self):
         for raw_data in self.raw_data_responses:

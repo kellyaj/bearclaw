@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-    fedex_tracker = FedexTracker(["9611804258025804723257"])
+    nums = ["9611804258025804723257", "9611804258025804723257", "9611804183634603474634"]
+    fedex_tracker = FedexTracker(nums)
     return render_template('index.html', entries=fedex_tracker.entries)
 
 if __name__ == "__main__":
