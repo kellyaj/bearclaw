@@ -13,3 +13,4 @@ results
 
 *.py[co]
 node_modules
+numbers.csv
