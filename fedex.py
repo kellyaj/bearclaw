@@ -5,13 +5,13 @@ import re
 class FedexTracker(object):
 
     def __init__(self, raw_entries):
-      self.raw_entries = raw_entries
+      self.entries = raw_entries
       self.create_request_data()
       self.make_request()
       self.generate_entry_dictionary()
 
     def create_request_data(self):
-      for entry in self.raw_entries:
+      for entry in self.entries:
           data = {
               'data': json.dumps({
                   'TrackPackagesRequest': {
@@ -40,7 +40,7 @@ class FedexTracker(object):
           entry["request_data"] = data
 
     def make_request(self):
-        for entry in self.raw_entries:
+        for entry in self.entries:
             entry["raw_data_response"] = requests.post('https://www.fedex.com/trackingCal/track', entry["request_data"]).json()
 
     def last_location(self, raw_data):
@@ -62,7 +62,7 @@ class FedexTracker(object):
         return "{0}:{1}".format(split_time[0], split_time[1])
 
     def generate_entry_dictionary(self):
-        for entry in self.raw_entries:
+        for entry in self.entries:
             raw_data = entry["raw_data_response"]
             entry['last_location'] = self.last_location(raw_data)
             entry['last_checkin'] = self.last_checkin(raw_data)

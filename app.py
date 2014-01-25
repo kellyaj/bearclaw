@@ -18,7 +18,7 @@ def root():
         raw_entries.append(raw_entry)
     del raw_entries[0]
     fedex_tracker = FedexTracker(raw_entries)
-    entries = fedex_tracker.raw_entries
+    entries = fedex_tracker.entries
     return render_template('index.html', entries=entries)
 
 @app.route("/create", methods=['POST'])
