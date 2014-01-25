@@ -1,4 +1,5 @@
 import csv
+import json
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -7,19 +8,26 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-    nums = []
+    raw_entries = []
     with open("numbers.csv", "rb") as csvfile:
       reader = csv.reader(csvfile)
       for row in reader:
-        nums.append(row[0])
-    del nums[0]
-    fedex_tracker = FedexTracker(nums)
-    return render_template('index.html', entries=fedex_tracker.entries)
+        raw_entry = {}
+        raw_entry["name"] = row[0]
+        raw_entry["number"] = row[1]
+        raw_entries.append(raw_entry)
+    del raw_entries[0]
+    print raw_entries
+    fedex_tracker = FedexTracker(raw_entries)
+    entries = fedex_tracker.raw_entries
+    print entries
+    return render_template('index.html', entries=entries)
 
 @app.route("/create", methods=['POST'])
 def create():
+    data = json.loads(request.data)
     with open("numbers.csv", "ab") as fo:
-        fo.write(request.data + ",\n")
+        fo.write("{0},{1},\n".format(data["name"], data["number"]))
     return "ok"
 
 

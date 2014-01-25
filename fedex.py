@@ -4,17 +4,14 @@ import re
 
 class FedexTracker(object):
 
-    def __init__(self, tracking_numbers):
-      self.tracking_numbers = tracking_numbers
-      self.request_datas = []
-      self.raw_data_responses = []
-      self.entries = []
+    def __init__(self, raw_entries):
+      self.raw_entries = raw_entries
       self.create_request_data()
       self.make_request()
       self.generate_entry_dictionary()
 
     def create_request_data(self):
-      for number in self.tracking_numbers:
+      for entry in self.raw_entries:
           data = {
               'data': json.dumps({
                   'TrackPackagesRequest': {
@@ -28,7 +25,7 @@ class FedexTracker(object):
                           },
                       'trackingInfoList': [{
                           'trackNumberInfo': {
-                              'trackingNumber': number,
+                              'trackingNumber': entry["number"],
                               'trackingQualifier': '',
                               'trackingCarrier': ''
                               }
@@ -40,11 +37,11 @@ class FedexTracker(object):
               'format': 'json',
               'version': 99
           }
-          self.request_datas.append(data)
+          entry["request_data"] = data
 
     def make_request(self):
-        for request_data in self.request_datas:
-            self.raw_data_responses.append(requests.post('https://www.fedex.com/trackingCal/track', request_data).json())
+        for entry in self.raw_entries:
+            entry["raw_data_response"] = requests.post('https://www.fedex.com/trackingCal/track', entry["request_data"]).json()
 
     def last_location(self, raw_data):
         return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["scanLocation"]
@@ -65,12 +62,13 @@ class FedexTracker(object):
         return "{0}:{1}".format(split_time[0], split_time[1])
 
     def generate_entry_dictionary(self):
-        for raw_data in self.raw_data_responses:
-            entry = {}
+        for entry in self.raw_entries:
+            raw_data = entry["raw_data_response"]
             entry['last_location'] = self.last_location(raw_data)
             entry['last_checkin'] = self.last_checkin(raw_data)
             entry['status'] = self.get_status_text(raw_data)
-            self.entries.append(entry)
+            del entry["raw_data_response"]
+            del entry["request_data"]
 
     def is_out_for_delivery(self, raw_data):
         status = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["status"]
