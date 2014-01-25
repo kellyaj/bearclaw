@@ -19,7 +19,7 @@ def root():
 @app.route("/create", methods=['POST'])
 def create():
     with open("numbers.csv", "ab") as fo:
-        fo.write(request.data + "\n")
+        fo.write(request.data + ",\n")
     return "ok"
 
 
