@@ -14,3 +14,5 @@ results
 *.py[co]
 node_modules
 numbers.csv
+raw_data_response.txt
+formatted_raw_data.txt

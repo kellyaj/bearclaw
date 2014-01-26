@@ -7,8 +7,10 @@ class FedexTracker(object):
     def __init__(self, raw_entries):
         self.entries = raw_entries
         self.create_request_data()
+
+    def execute(self):
         self.make_request()
-        self.generate_entry_dictionary()
+        self.update_entries()
 
     def create_request_data(self):
         for entry in self.entries:
@@ -49,7 +51,7 @@ class FedexTracker(object):
     def last_checkin(self, raw_data):
         raw_date = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["date"]
         raw_time = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["time"]
-        return "{0} at {1}".format(self.format_time(raw_time),self.format_date(raw_date))
+        return "{0} on {1}".format(self.format_time(raw_time),self.format_date(raw_date))
 
     def format_date(self, raw_date):
         split_date = raw_date.split("-")
@@ -59,7 +61,7 @@ class FedexTracker(object):
         split_time = raw_time.split(":")
         return "{0}:{1}".format(split_time[0], split_time[1])
 
-    def generate_entry_dictionary(self):
+    def update_entries(self):
         for entry in self.entries:
             raw_data = entry["raw_data_response"]
             entry['last_location'] = self.last_location(raw_data)
