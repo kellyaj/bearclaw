@@ -49,9 +49,7 @@ class FedexTracker(object):
     def last_checkin(self, raw_data):
         raw_date = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["date"]
         raw_time = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["time"]
-        date = self.format_date(raw_date)
-        time = self.format_time(raw_time)
-        return "{0} at {1}".format(time,date)
+        return "{0} at {1}".format(self.format_time(raw_time),self.format_date(raw_date))
 
     def format_date(self, raw_date):
         split_date = raw_date.split("-")
