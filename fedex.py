@@ -5,39 +5,39 @@ import re
 class FedexTracker(object):
 
     def __init__(self, raw_entries):
-      self.entries = raw_entries
-      self.create_request_data()
-      self.make_request()
-      self.generate_entry_dictionary()
+        self.entries = raw_entries
+        self.create_request_data()
+        self.make_request()
+        self.generate_entry_dictionary()
 
     def create_request_data(self):
-      for entry in self.entries:
-          data = {
-              'data': json.dumps({
-                  'TrackPackagesRequest': {
-                      'appType': 'wtrk',
-                      'uniqueKey': '',
-                      'processingParameters': {
-                          'anonymousTransaction': True,
-                          'clientId': 'WTRK',
-                          'returnDetailedErrors': True,
-                          'returnLocalizedDateTime': False
-                          },
-                      'trackingInfoList': [{
-                          'trackNumberInfo': {
-                              'trackingNumber': entry["number"],
-                              'trackingQualifier': '',
-                              'trackingCarrier': ''
-                              }
-                          }]
-                      }
-                  }),
-              'action': 'trackpackages',
-              'locale': 'en_US',
-              'format': 'json',
-              'version': 99
-          }
-          entry["request_data"] = data
+        for entry in self.entries:
+            data = {
+                'data': json.dumps({
+                    'TrackPackagesRequest': {
+                        'appType': 'wtrk',
+                        'uniqueKey': '',
+                        'processingParameters': {
+                            'anonymousTransaction': True,
+                            'clientId': 'WTRK',
+                            'returnDetailedErrors': True,
+                            'returnLocalizedDateTime': False
+                            },
+                        'trackingInfoList': [{
+                            'trackNumberInfo': {
+                                'trackingNumber': entry["number"],
+                                'trackingQualifier': '',
+                                'trackingCarrier': ''
+                                }
+                            }]
+                        }
+                    }),
+                'action': 'trackpackages',
+                'locale': 'en_US',
+                'format': 'json',
+                'version': 99
+            }
+            entry["request_data"] = data
 
     def make_request(self):
         for entry in self.entries:
