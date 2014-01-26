@@ -3,7 +3,7 @@ import json
 from flask import Flask
 from flask import request
 from flask import render_template
-from fedex import FedexTracker
+from bearclaw.fedex import FedexTracker
 app = Flask(__name__)
 
 @app.route("/")
