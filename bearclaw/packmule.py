@@ -14,5 +14,12 @@ class PackMule(object):
         return entries
 
     def saddle_up(self, entry):
-        with open("numbers.csv", "ab") as csvfile:
-            csvfile.write("{0},{1},\n".format(entry["name"], entry["number"]))
+        if self.is_not_duplicate(entry):
+            with open("numbers.csv", "ab") as csvfile:
+                csvfile.write("{0},{1},\n".format(entry["name"], entry["number"]))
+
+    def is_not_duplicate(self, new_entry):
+        entries = self.inventory()
+        for entry in entries:
+            if entry["number"] == new_entry["number"]:
+                return False
