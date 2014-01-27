@@ -19,8 +19,7 @@ def root():
 @app.route("/create", methods=['POST'])
 def create():
     data = json.loads(request.data)
-    with open("numbers.csv", "ab") as fo:
-        fo.write("{0},{1},\n".format(data["name"], data["number"]))
+    packmule.saddle_up(data)
     return "ok"
 
 

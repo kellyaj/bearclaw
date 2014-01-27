@@ -12,3 +12,7 @@ class PackMule(object):
             for row in reader:
                 entries.append({"name": row[0], "number": row[1]})
         return entries
+
+    def saddle_up(self, entry):
+        with open("numbers.csv", "ab") as csvfile:
+            csvfile.write("{0},{1},\n".format(entry["name"], entry["number"]))
