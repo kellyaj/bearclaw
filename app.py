@@ -1,22 +1,16 @@
-import csv
 import json
 from flask import Flask
 from flask import request
 from flask import render_template
 from bearclaw.fedex import FedexTracker
+from bearclaw.packmule import PackMule
+
 app = Flask(__name__)
+packmule = PackMule()
 
 @app.route("/")
 def root():
-    raw_entries = []
-    with open("numbers.csv", "rb") as csvfile:
-      reader = csv.reader(csvfile)
-      for row in reader:
-        raw_entry = {}
-        raw_entry["name"] = row[0]
-        raw_entry["number"] = row[1]
-        raw_entries.append(raw_entry)
-    del raw_entries[0]
+    raw_entries = packmule.inventory()
     fedex_tracker = FedexTracker(raw_entries)
     fedex_tracker.execute()
     entries = fedex_tracker.entries
