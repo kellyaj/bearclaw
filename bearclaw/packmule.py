@@ -23,3 +23,11 @@ class PackMule(object):
         for entry in entries:
             if entry["number"] == new_entry["number"]:
                 return False
+
+    def remove_entry(self, tracking_number):
+        entries = self.inventory()
+        for idx, entry in entries:
+            if entry["number"] == tracking_number:
+                entries[idx].remove(entry)
+            with open(self.csv_file, "abw+") as csvfile:
+                csvfile.write("{0},{1},\n".format(entry["name"], entry["number"]))
