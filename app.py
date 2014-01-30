@@ -24,7 +24,10 @@ def create():
 
 @app.route("/delete", methods=["DELETE"])
 def delete():
-    tracking_number = json.loads(request.data)
+    data = json.loads(request.data)
+    number = int(data["number"])
+    packmule.remove_entry(number)
+    return "ok"
 
 if __name__ == "__main__":
   app.run(debug=True)
