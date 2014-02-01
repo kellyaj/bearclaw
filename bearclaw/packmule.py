@@ -33,6 +33,5 @@ class PackMule(object):
                 csvfile.write("{0},{1},\n".format(entry["name"], entry["number"]))
 
     def clear_csv_file(self):
-        f = open(self.csv_file, "w")
-        f.truncate()
-        f.close()
+        with open(self.csv_file, "w") as csvfile:
+            csvfile.truncate()
