@@ -1,4 +1,4 @@
-$('button').on('click', function(event) {
+$('.remove-button').on('click', function(event) {
   event.preventDefault();
   trackingNumber = $(event.target).data('id');
   removeUrl = "http://localhost:5000/delete"
