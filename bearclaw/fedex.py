@@ -46,12 +46,12 @@ class FedexTracker(object):
             entry["raw_data_response"] = requests.post('https://www.fedex.com/trackingCal/track', entry["request_data"]).json()
 
     def last_location(self, raw_data):
-        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["scanLocation"]
+        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["scanLocation"].upper()
 
     def last_checkin(self, raw_data):
         raw_date = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["date"]
         raw_time = raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["time"]
-        return "{0} on {1}".format(self.format_time(raw_time),self.format_date(raw_date))
+        return "{0} ON {1}".format(self.format_time(raw_time),self.format_date(raw_date))
 
     def format_date(self, raw_date):
         split_date = raw_date.split("-")
@@ -64,6 +64,7 @@ class FedexTracker(object):
     def update_entries(self):
         for entry in self.entries:
             raw_data = entry["raw_data_response"]
+            entry["name"] = entry["name"].upper()
             entry['last_location'] = self.last_location(raw_data)
             entry['last_checkin'] = self.last_checkin(raw_data)
             entry['status'] = self.get_status_text(raw_data)
@@ -79,7 +80,7 @@ class FedexTracker(object):
         return re.match(status, "delivered", re.IGNORECASE) is not None
 
     def get_status_text(self, raw_data):
-        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["status"]
+        return raw_data["TrackPackagesResponse"]["packageList"][0]["scanEventList"][0]["status"].upper()
 
     def get_delivery_status(self, raw_data):
         if self.is_out_for_delivery(raw_data):

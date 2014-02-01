@@ -31,20 +31,20 @@ class FedexTrackerTests(unittest.TestCase):
 
     def test_last_location(self):
         raw_data = self.entry["raw_data_response"]
-        self.assertEqual(self.fedex_tracker.last_location(raw_data), "Chicago, IL")
+        self.assertEqual(self.fedex_tracker.last_location(raw_data), "CHICAGO, IL")
 
     def test_last_checkin(self):
         raw_data = self.entry["raw_data_response"]
-        expected_date_time = "11:17 on 01/02/2014"
+        expected_date_time = "11:17 ON 01/02/2014"
         self.assertEqual(self.fedex_tracker.last_checkin(raw_data), expected_date_time)
 
     def test_getting_status_text(self):
         raw_data = self.entry["raw_data_response"]
-        self.assertEqual(self.fedex_tracker.get_status_text(raw_data), "Delivered")
+        self.assertEqual(self.fedex_tracker.get_status_text(raw_data), "DELIVERED")
 
     def test_entry_updating(self):
         self.fedex_tracker.update_entries()
         revised_entry = self.fedex_tracker.entries[0]
-        self.assertEqual(revised_entry["last_location"], "Chicago, IL")
-        self.assertEqual(revised_entry["last_checkin"], "11:17 on 01/02/2014")
-        self.assertEqual(revised_entry["status"], "Delivered")
+        self.assertEqual(revised_entry["last_location"], "CHICAGO, IL")
+        self.assertEqual(revised_entry["last_checkin"], "11:17 ON 01/02/2014")
+        self.assertEqual(revised_entry["status"], "DELIVERED")
