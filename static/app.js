@@ -8,6 +8,7 @@ $('button').on('click', function(event) {
     url: removeUrl,
     contentType: "application/json",
     type: 'DELETE',
-    data: JSON.stringify(data)
+    data: JSON.stringify(data),
+    success: function() {$(event.target).closest('tr').remove();}
   });
 });
