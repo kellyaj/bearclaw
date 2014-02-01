@@ -1,21 +1,26 @@
 <!doctype html>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='main.css')}}">
-<table>
-  <tr>
-    <td>Item Name</td>
-    <td>Location</td>
-    <td>Date and Time</td>
-    <td>Status</td>
-  </tr>
-  {% for entry in entries %}
-    <tr>
-      <td>{{entry['name']}}</td>
-      <td>{{entry['last_location']}}</td>
-      <td>{{entry['last_checkin']}}</td>
-      <td>{{entry['status']}}</td>
-      <td><button data-id={{entry['number']}}>Remove</button></td>
-    </tr>
-  {% endfor %}
-  <script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='app.js')}}"></script>
-</table>
+<div class="container">
+  <div class="package-table">
+    <table>
+      <tr>
+        <td>Item Name</td>
+        <td>Location</td>
+        <td>Date and Time</td>
+        <td>Status</td>
+        <td></td>
+      </tr>
+      {% for entry in entries %}
+        <tr>
+          <td>{{entry['name']}}</td>
+          <td>{{entry['last_location']}}</td>
+          <td>{{entry['last_checkin']}}</td>
+          <td>{{entry['status']}}</td>
+          <td><button data-id={{entry['number']}}>Remove</button></td>
+        </tr>
+      {% endfor %}
+      <script type="text/javascript" src="{{url_for('static', filename='jquery.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='app.js')}}"></script>
+    </table>
+  </div>
+</div>
