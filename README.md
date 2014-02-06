@@ -1,6 +1,6 @@
 Bearclaw
 =======================
-A work in progress for tracking deliveries. Currently only supports FedEx. Named after the character from the classic western film [Jeremiah Johnson](http://en.wikipedia.org/wiki/Jeremiah_Johnson_(film). To be used in conjunction with my Chrome extension named [trap](https://github.com/kellyaj/trap), another work in progress. 
+A work in progress for tracking deliveries. Currently only supports FedEx. Named after the character from the classic western film [Jeremiah Johnson](http://en.wikipedia.org/wiki/Jeremiah_Johnson_(film)). To be used in conjunction with my Chrome extension named [trap](https://github.com/kellyaj/trap), another work in progress. 
 
 Requirements
 -----------------------
